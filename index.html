@@ -80,6 +80,18 @@
       transform: translateY(0);
       box-shadow: 0 0 10px #00ffcc, 0 0 20px #ff00ff;
     }
+    .token-id {
+      word-break: break-all;
+      font-size: 0.75rem;
+      line-height: 1.2;
+      max-width: 100%;
+      overflow-wrap: break-word;
+    }
+    @media (min-width: 640px) {
+      .token-id {
+        font-size: 0.875rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -98,6 +110,9 @@
         />
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide animate-pulse">FluxCash (FXC)</h1>
         <p className="mt-2 sm:mt-3 text-base sm:text-lg opacity-90">The Future of CashTokens on Bitcoin Cash</p>
+        <p className="mt-2 sm:mt-3 text-gray-300 token-id">
+          Token ID: 9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501
+        </p>
       </header>
     );
 
@@ -195,8 +210,7 @@
             </div>
           </main>
           <footer className="bg-indigo-950 p-4 sm:p-6 text-center">
-            <p className="text-gray-400 text-sm sm:text-base">Token ID: 9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501</p>
-            <p className="text-gray-400 text-sm sm:text-base mt-2">© 2025 FluxCash. All rights reserved.</p>
+            <p className="text-gray-400 text-sm sm:text-base">© 2025 FluxCash. All rights reserved.</p>
           </footer>
         </div>
       );
