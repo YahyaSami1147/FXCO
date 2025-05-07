@@ -21,6 +21,46 @@
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
+    @keyframes orbit1 {
+      from { transform: rotate(0deg) translateX(max(6vw, 24px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(6vw, 24px)) rotate(-360deg); }
+    }
+    @keyframes orbit2 {
+      from { transform: rotate(0deg) translateX(max(9vw, 36px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(9vw, 36px)) rotate(-360deg); }
+    }
+    @keyframes orbit3 {
+      from { transform: rotate(0deg) translateX(max(12vw, 48px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(12vw, 48px)) rotate(-360deg); }
+    }
+    @keyframes orbit4 {
+      from { transform: rotate(0deg) translateX(max(15vw, 60px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(15vw, 60px)) rotate(-360deg); }
+    }
+    @keyframes orbit5 {
+      from { transform: rotate(0deg) translateX(max(18vw, 72px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(18vw, 72px)) rotate(-360deg); }
+    }
+    .orbit1 { animation: orbit1 7s linear infinite; }
+    .orbit2 { animation: orbit2 9s linear infinite; }
+    .orbit3 { animation: orbit3 11s linear infinite; }
+    .orbit4 { animation: orbit4 13s linear infinite; }
+    .orbit5 { animation: orbit5 15s linear infinite; }
+    .orbit-path {
+      position: absolute;
+      border: 1px solid rgba(0, 255, 204, 0.15);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .neon-background {
+      background: radial-gradient(circle at center, rgba(0, 255, 204, 0.2) 0%, rgba(0, 0, 0, 0.9) 70%);
+    }
+    .fallback-logo {
+      background-color: #FFD700;
+      border-radius: 50%;
+    }
   </style>
 </head>
 <body>
@@ -32,6 +72,10 @@
           src="FXC.png" 
           alt="FluxCash Logo" 
           className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect"
+          onError={(e) => {
+            e.target.src = '';
+            e.target.className = 'w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect fallback-logo';
+          }}
         />
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide animate-pulse">FluxCash (FXC)</h1>
         <p className="mt-2 sm:mt-3 text-base sm:text-lg opacity-90">The Future of CashTokens on Bitcoin Cash</p>
@@ -45,6 +89,60 @@
         <p className="mt-2 sm:mt-3 text-sm sm:text-base text-center text-gray-300">{description}</p>
       </div>
     );
+
+    const SolarSystem = () => {
+      const orbits = [
+        { className: 'orbit1', delay: '0s', radius: '12vw', minRadius: '48px' },
+        { className: 'orbit2', delay: '0.8s', radius: '18vw', minRadius: '72px' },
+        { className: 'orbit3', delay: '1.6s', radius: '24vw', minRadius: '96px' },
+        { className: 'orbit4', delay: '2.4s', radius: '30vw', minRadius: '120px' },
+        { className: 'orbit5', delay: '3.2s', radius: '36vw', minRadius: '144px' }
+      ];
+
+      return (
+        <div className="relative w-full min-w-[200px] h-64 sm:h-80 md:h-96 neon-background rounded-2xl border-4 border-yellow-400 flex items-center justify-center overflow-hidden">
+          {/* Background Orbital Paths */}
+          {orbits.map((orbit, index) => (
+            <div
+              key={`path-${index}`}
+              className="orbit-path"
+              style={{
+                width: `max(${orbit.radius}, ${orbit.minRadius})`,
+                height: `max(${orbit.radius}, ${orbit.minRadius})`
+              }}
+            />
+          ))}
+          {/* Central BCH Logo */}
+          <img
+            src="bitcoin-cash-circle.svg"
+            alt="BCH Logo"
+            className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full glow-effect"
+            onError={(e) => {
+              e.target.src = '';
+              e.target.className = 'w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-full glow-effect fallback-logo';
+            }}
+          />
+          {/* Orbiting FXC Logos */}
+          {orbits.map((orbit, index) => (
+            <div
+              key={index}
+              className={`absolute w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8 ${orbit.className}`}
+              style={{ animationDelay: orbit.delay }}
+            >
+              <img
+                src="FXC.png"
+                alt="FXC Logo"
+                className="w-full h-full rounded-full glow-effect"
+                onError={(e) => {
+                  e.target.src = '';
+                  e.target.className = 'w-full h-full rounded-full glow-effect fallback-logo';
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      );
+    };
 
     const App = () => {
       const features = [
@@ -64,7 +162,7 @@
             </div>
             <div className="mt-8 sm:mt-12 text-center">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash Solar System</h2>
-              <canvas id="solarSystemCanvas" className="w-full h-64 sm:h-80 md:h-96 bg-black rounded-2xl border-4 border-yellow-400"></canvas>
+              <SolarSystem />
             </div>
           </main>
           <footer className="bg-indigo-950 p-4 sm:p-6 text-center">
@@ -76,142 +174,6 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(<App />);
-  </script>
-  <script>
-    window.onload = function() {
-      const canvas = document.getElementById('solarSystemCanvas');
-      if (!canvas) {
-        console.error('Canvas element not found');
-        return;
-      }
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        console.error('Failed to get 2D context');
-        return;
-      }
-
-      const dpr = window.devicePixelRatio || 1;
-
-      function resizeCanvas() {
-        canvas.width = canvas.offsetWidth * dpr;
-        canvas.height = canvas.offsetHeight * dpr;
-        ctx.scale(dpr, dpr);
-      }
-
-      resizeCanvas();
-
-      // Enable high-quality image rendering
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-
-      let centerX = canvas.offsetWidth / (dpr * 2);
-      let centerY = canvas.offsetHeight / (dpr * 2);
-
-      const bchLogo = new Image();
-      bchLogo.src = 'bitcoin-cash-circle.svg'; // Replace with actual BCH logo URL
-      const fxcLogo = new Image();
-      fxcLogo.src = 'FXCO.png'; // FXC logo with potential white background
-
-      let circularFxcLogo = null;
-
-      // Create circular FXC logo by masking with higher resolution
-      fxcLogo.onload = function() {
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-        const size = Math.max(fxcLogo.width, fxcLogo.height) * 2; // Increase resolution
-        tempCanvas.width = size;
-        tempCanvas.height = size;
-        tempCtx.imageSmoothingEnabled = true;
-        tempCtx.imageSmoothingQuality = 'high';
-        tempCtx.drawImage(fxcLogo, (size - fxcLogo.width) / 2, (size - fxcLogo.height) / 2, fxcLogo.width, fxcLogo.height);
-
-        // Apply circular mask
-        tempCtx.globalCompositeOperation = 'destination-in';
-        tempCtx.beginPath();
-        tempCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-        tempCtx.fill();
-
-        circularFxcLogo = tempCanvas;
-      };
-
-      const tokens = [];
-      const tokenCount = 8; // Chosen for visual balance
-      let baseRadius = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.1;
-      let radiusStep = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
-      for (let i = 0; i < tokenCount; i++) {
-        tokens.push({
-          angle: (Math.PI * 2 * i) / tokenCount,
-          radius: baseRadius + i * radiusStep, // Different orbits, responsive
-          speed: 0.02 - i * 0.002, // Slower outer orbits
-          size: Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05 // Responsive size
-        });
-      }
-
-      function drawBackground() {
-        const gradient = ctx.createRadialGradient(centerX * dpr, centerY * dpr, 0, centerX * dpr, centerY * dpr, Math.max(canvas.width, canvas.height) / 2);
-        gradient.addColorStop(0, 'rgba(0, 255, 204, 0.2)');
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.9)');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-
-      function drawOrbits() {
-        tokens.forEach(token => {
-          ctx.beginPath();
-          ctx.arc(centerX * dpr, centerY * dpr, token.radius * dpr, 0, Math.PI * 2);
-          ctx.strokeStyle = 'rgba(0, 255, 204, 0.1)';
-          ctx.lineWidth = 1 * dpr;
-          ctx.stroke();
-        });
-      }
-
-      function animate() {
-        // Recalculate center for responsiveness
-        centerX = canvas.offsetWidth / (dpr * 2);
-        centerY = canvas.offsetHeight / (dpr * 2);
-
-        drawBackground();
-        drawOrbits();
-
-        // Draw static BCH logo as the "sun"
-        if (bchLogo.complete) {
-          const bchSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.2; // Responsive size
-          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
-          ctx.shadowBlur = 30 * dpr;
-          ctx.shadowColor = '#00ff00';
-          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
-          ctx.shadowBlur = 0;
-        }
-
-        // Draw orbiting FXC tokens with different orbits
-        tokens.forEach(token => {
-          const x = centerX + Math.cos(token.angle) * token.radius;
-          const y = centerY + Math.sin(token.angle) * token.radius;
-          if (circularFxcLogo) {
-            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
-            ctx.shadowBlur = 15 * dpr;
-            ctx.shadowColor = '#FFD700';
-            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
-            ctx.shadowBlur = 0;
-          }
-          token.angle += token.speed;
-        });
-
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-
-      window.addEventListener('resize', () => {
-        resizeCanvas();
-        baseRadius = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.1;
-        radiusStep = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
-        tokens.forEach((token, i) => {
-          token.radius = baseRadius + i * radiusStep;
-          token.size = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
-        });
-      });
-    };
   </script>
 </body>
 </html>
