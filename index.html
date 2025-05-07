@@ -96,36 +96,32 @@
         canvas.width = canvas.offsetWidth * dpr;
         canvas.height = canvas.offsetHeight * dpr;
         ctx.scale(dpr, dpr);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
       }
 
       resizeCanvas();
 
-      // Enable high-quality image rendering
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-
-      let centerX = canvas.offsetWidth / (dpr * 2);
-      let centerY = canvas.offsetHeight / (dpr * 2);
+      let centerX = canvas.offsetWidth / 2;
+      let centerY = canvas.offsetHeight / 2;
 
       const bchLogo = new Image();
-      bchLogo.src = 'bitcoin-cash-circle.svg'; // Replace with actual BCH logo URL
+      bchLogo.src = 'bitcoin-cash-circle.svg';
       const fxcLogo = new Image();
-      fxcLogo.src = 'FXCO.png'; // FXC logo with potential white background
+      fxcLogo.src = 'FXC.png';
 
       let circularFxcLogo = null;
 
-      // Create circular FXC logo by masking with higher resolution
       fxcLogo.onload = function() {
         const tempCanvas = document.createElement('canvas');
         const tempCtx = tempCanvas.getContext('2d');
-        const size = Math.max(fxcLogo.width, fxcLogo.height) * 2; // Increase resolution
+        const size = Math.max(fxcLogo.width, fxcLogo.height) * 2;
         tempCanvas.width = size;
         tempCanvas.height = size;
         tempCtx.imageSmoothingEnabled = true;
         tempCtx.imageSmoothingQuality = 'high';
         tempCtx.drawImage(fxcLogo, (size - fxcLogo.width) / 2, (size - fxcLogo.height) / 2, fxcLogo.width, fxcLogo.height);
 
-        // Apply circular mask
         tempCtx.globalCompositeOperation = 'destination-in';
         tempCtx.beginPath();
         tempCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
@@ -135,64 +131,73 @@
       };
 
       const tokens = [];
-      const tokenCount = 8; // Chosen for visual balance
+      const tokenCount = 8;
       let baseRadius = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.1;
       let radiusStep = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
       for (let i = 0; i < tokenCount; i++) {
         tokens.push({
           angle: (Math.PI * 2 * i) / tokenCount,
-          radius: baseRadius + i * radiusStep, // Different orbits, responsive
-          speed: 0.02 - i * 0.002, // Slower outer orbits
-          size: Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05 // Responsive size
+          radius: baseRadius + i * radiusStep,
+          speed: 0.02 - i * 0.002,
+          size: Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05
         });
       }
 
       function drawBackground() {
-        const gradient = ctx.createRadialGradient(centerX * dpr, centerY * dpr, 0, centerX * dpr, centerY * dpr, Math.max(canvas.width, canvas.height) / 2);
+        const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, Math.max(canvas.offsetWidth, canvas.offsetHeight) / 2);
         gradient.addColorStop(0, 'rgba(0, 255, 204, 0.2)');
         gradient.addColorStop(1, 'rgba(0, 0, 0, 0.9)');
         ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
       }
 
       function drawOrbits() {
         tokens.forEach(token => {
           ctx.beginPath();
-          ctx.arc(centerX * dpr, centerY * dpr, token.radius * dpr, 0, Math.PI * 2);
+          ctx.arc(centerX, centerY, token.radius, 0, Math.PI * 2);
           ctx.strokeStyle = 'rgba(0, 255, 204, 0.1)';
-          ctx.lineWidth = 1 * dpr;
+          ctx.lineWidth = 1;
           ctx.stroke();
         });
       }
 
+      function drawPlaceholder(x, y, size) {
+        ctx.fillStyle = '#FFD700';
+        ctx.beginPath();
+        ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
       function animate() {
-        // Recalculate center for responsiveness
-        centerX = canvas.offsetWidth / (dpr * 2);
-        centerY = canvas.offsetHeight / (dpr * 2);
+        ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+        centerX = canvas.offsetWidth / 2;
+        centerY = canvas.offsetHeight / 2;
 
         drawBackground();
         drawOrbits();
 
-        // Draw static BCH logo as the "sun"
-        if (bchLogo.complete) {
-          const bchSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.2; // Responsive size
-          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
-          ctx.shadowBlur = 30 * dpr;
+        const bchSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.2;
+        if (bchLogo.complete && bchLogo.naturalWidth > 0) {
+          ctx.drawImage(bchLogo, centerX - bchSize / 2, centerY - bchSize / 2, bchSize, bchSize);
+          ctx.shadowBlur = 30;
           ctx.shadowColor = '#00ff00';
-          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
+          ctx.drawImage(bchLogo, centerX - bchSize / 2, centerY - bchSize / 2, bchSize, bchSize);
           ctx.shadowBlur = 0;
+        } else {
+          drawPlaceholder(centerX, centerY, bchSize);
         }
 
-        // Draw orbiting FXC tokens with different orbits
         tokens.forEach(token => {
           const x = centerX + Math.cos(token.angle) * token.radius;
           const y = centerY + Math.sin(token.angle) * token.radius;
           if (circularFxcLogo) {
-            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
-            ctx.shadowBlur = 15 * dpr;
+            ctx.drawImage(circularFxcLogo, x - token.size / 2, y - token.size / 2, token.size, token.size);
+            ctx.shadowBlur = 15;
             ctx.shadowColor = '#FFD700';
-            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
+            ctx.drawImage(circularFxcLogo, x - token.size / 2, y - token.size / 2, token.size, token.size);
             ctx.shadowBlur = 0;
+          } else {
+            drawPlaceholder(x, y, token.size);
           }
           token.angle += token.speed;
         });
