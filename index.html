@@ -97,24 +97,36 @@
 <body>
   <div id="root"></div>
   <script type="text/babel">
-    const Header = () => (
-      <header className="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 text-white p-4 sm:p-6 md:p-8 text-center">
-        <img 
-          src="FXC.png" 
-          alt="FluxCash Logo" 
-          className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect"
-          onError={(e) => {
-            e.target.src = '';
-            e.target.className = 'w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect fallback-logo';
-          }}
-        />
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide animate-pulse">FluxCash (FXC)</h1>
-        <p className="mt-2 sm:mt-3 text-base sm:text-lg opacity-90">The Future of CashTokens on Bitcoin Cash</p>
-        <p className="mt-2 sm:mt-3 text-gray-300 token-id">
-          Token ID: 9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501
-        </p>
-      </header>
-    );
+    const Header = () => {
+      const handleBuyNow = () => {
+        window.open('https://app.cauldron.quest/swap/9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501', '_blank');
+      };
+
+      return (
+        <header className="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 text-white p-4 sm:p-6 md:p-8 text-center">
+          <img 
+            src="FXC.png" 
+            alt="FluxCash Logo" 
+            className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect"
+            onError={(e) => {
+              e.target.src = '';
+              e.target.className = 'w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect fallback-logo';
+            }}
+          />
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide animate-pulse">FluxCash (FXC)</h1>
+          <p className="mt-2 sm:mt-3 text-base sm:text-lg opacity-90">The Future of CashTokens on Bitcoin Cash</p>
+          <p className="mt-2 sm:mt-3 text-gray-300 token-id">
+            Token ID: 9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501
+          </p>
+          <button 
+            className="neon-button mt-4 sm:mt-6 glow-effect"
+            onClick={handleBuyNow}
+          >
+            Buy Now
+          </button>
+        </header>
+      );
+    };
 
     const FeatureCard = ({ title, description, icon }) => (
       <div className="relative bg-gradient-to-t from-gray-800 to-gray-900 text-white p-4 sm:p-6 rounded-xl m-2 sm:m-4 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
@@ -185,10 +197,6 @@
         { title: "Futuristic Design", description: "Immerse yourself in a neon blockchain experience.", icon: "🌌" }
       ];
 
-      const handleBuyNow = () => {
-        window.open('https://app.cauldron.quest/swap/9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501', '_blank');
-      };
-
       return (
         <div className="bg-gray-900 min-h-screen text-white">
           <Header />
@@ -201,12 +209,6 @@
             <div className="mt-8 sm:mt-12 text-center">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash & BitcoinCash</h2>
               <SolarSystem />
-              <button 
-                className="neon-button mt-6 sm:mt-8 glow-effect"
-                onClick={handleBuyNow}
-              >
-                Buy Now
-              </button>
             </div>
           </main>
           <footer className="bg-indigo-950 p-4 sm:p-6 text-center">
