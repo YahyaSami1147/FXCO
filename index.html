@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FluxCash (FXC)</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #00ffcc, 0 0 20px #00ffcc; }
+      50% { box-shadow: 0 0 20px #00ffcc, 0 0 30px #00ffcc; }
+      100% { box-shadow: 0 0 5px #00ffcc, 0 0 20px #00ffcc; }
+    }
+    .glow-effect {
+      animation: glow 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const Header = () => (
+      <header className="bg-gradient-to-br from-indigo-900 via-purple-800 to-pink-700 text-white p-4 sm:p-6 md:p-8 text-center">
+        <img 
+          src="FXC.png" 
+          alt="FluxCash Logo" 
+          className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full mx-auto mb-4 glow-effect"
+        />
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-wide animate-pulse">FluxCash (FXC)</h1>
+        <p className="mt-2 sm:mt-3 text-base sm:text-lg opacity-90">The Future of CashTokens on Bitcoin Cash</p>
+      </header>
+    );
+
+    const FeatureCard = ({ title, description, icon }) => (
+      <div className="relative bg-gradient-to-t from-gray-800 to-gray-900 text-white p-4 sm:p-6 rounded-xl m-2 sm:m-4 transition-transform transform hover:-translate-y-2 hover:shadow-2xl">
+        <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-yellow-400 text-black rounded-full p-2 sm:p-3 text-xl sm:text-2xl">{icon}</div>
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold mt-6 sm:mt-8 text-center">{title}</h2>
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base text-center text-gray-300">{description}</p>
+      </div>
+    );
+
+    const App = () => {
+      const features = [
+        { title: "Exclusive Supply", description: "Only 100 FXC tokens in existence!", icon: "💰" },
+        { title: "Bitcoin Cash Powered", description: "Leveraging the speed and security of BCH.", icon: "⚡" },
+        { title: "Futuristic Design", description: "Immerse yourself in a neon blockchain experience.", icon: "🌌" }
+      ];
+
+      return (
+        <div className="bg-gray-900 min-h-screen text-white">
+          <Header />
+          <main className="container mx-auto p-4 sm:p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+              {features.map((feat, index) => (
+                <FeatureCard key={index} title={feat.title} description={feat.description} icon={feat.icon} />
+              ))}
+            </div>
+            <div className="mt-8 sm:mt-12 text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash Solar System</h2>
+              <canvas id="solarSystemCanvas" className="w-full h-64 sm:h-80 md:h-96 bg-black rounded-2xl border-4 border-yellow-400"></canvas>
+            </div>
+          </main>
+          <footer className="bg-indigo-950 p-4 sm:p-6 text-center">
+            <p className="text-gray-400 text-sm sm:text-base">© 2025 FluxCash. All rights reserved.</p>
+          </footer>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+  <script>
+    window.onload = function() {
+      const canvas = document.getElementById('solarSystemCanvas');
+      if (!canvas) {
+        console.error('Canvas element not found');
+        return;
+      }
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        console.error('Failed to get 2D context');
+        return;
+      }
+
+      const dpr = window.devicePixelRatio || 1;
+
+      function resizeCanvas() {
+        canvas.width = canvas.offsetWidth * dpr;
+        canvas.height = canvas.offsetHeight * dpr;
+        ctx.scale(dpr, dpr);
+      }
+
+      resizeCanvas();
+
+      // Enable high-quality image rendering
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+
+      let centerX = canvas.offsetWidth / (dpr * 2);
+      let centerY = canvas.offsetHeight / (dpr * 2);
+
+      const bchLogo = new Image();
+      bchLogo.src = 'bitcoin-cash-circle.svg'; // Replace with actual BCH logo URL
+      const fxcLogo = new Image();
+      fxcLogo.src = 'FXCO.png'; // FXC logo with potential white background
+
+      let circularFxcLogo = null;
+
+      // Create circular FXC logo by masking with higher resolution
+      fxcLogo.onload = function() {
+        const tempCanvas = document.createElement('canvas');
+        const tempCtx = tempCanvas.getContext('2d');
+        const size = Math.max(fxcLogo.width, fxcLogo.height) * 2; // Increase resolution
+        tempCanvas.width = size;
+        tempCanvas.height = size;
+        tempCtx.imageSmoothingEnabled = true;
+        tempCtx.imageSmoothingQuality = 'high';
+        tempCtx.drawImage(fxcLogo, (size - fxcLogo.width) / 2, (size - fxcLogo.height) / 2, fxcLogo.width, fxcLogo.height);
+
+        // Apply circular mask
+        tempCtx.globalCompositeOperation = 'destination-in';
+        tempCtx.beginPath();
+        tempCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
+        tempCtx.fill();
+
+        circularFxcLogo = tempCanvas;
+      };
+
+      const tokens = [];
+      const tokenCount = 8; // Chosen for visual balance
+      let baseRadius = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.1;
+      let radiusStep = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
+      for (let i = 0; i < tokenCount; i++) {
+        tokens.push({
+          angle: (Math.PI * 2 * i) / tokenCount,
+          radius: baseRadius + i * radiusStep, // Different orbits, responsive
+          speed: 0.02 - i * 0.002, // Slower outer orbits
+          size: Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05 // Responsive size
+        });
+      }
+
+      function drawBackground() {
+        const gradient = ctx.createRadialGradient(centerX * dpr, centerY * dpr, 0, centerX * dpr, centerY * dpr, Math.max(canvas.width, canvas.height) / 2);
+        gradient.addColorStop(0, 'rgba(0, 255, 204, 0.2)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.9)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function drawOrbits() {
+        tokens.forEach(token => {
+          ctx.beginPath();
+          ctx.arc(centerX * dpr, centerY * dpr, token.radius * dpr, 0, Math.PI * 2);
+          ctx.strokeStyle = 'rgba(0, 255, 204, 0.1)';
+          ctx.lineWidth = 1 * dpr;
+          ctx.stroke();
+        });
+      }
+
+      function animate() {
+        // Recalculate center for responsiveness
+        centerX = canvas.offsetWidth / (dpr * 2);
+        centerY = canvas.offsetHeight / (dpr * 2);
+
+        drawBackground();
+        drawOrbits();
+
+        // Draw static BCH logo as the "sun"
+        if (bchLogo.complete) {
+          const bchSize = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.2; // Responsive size
+          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
+          ctx.shadowBlur = 30 * dpr;
+          ctx.shadowColor = '#00ff00';
+          ctx.drawImage(bchLogo, (centerX - bchSize / 2) * dpr, (centerY - bchSize / 2) * dpr, bchSize * dpr, bchSize * dpr);
+          ctx.shadowBlur = 0;
+        }
+
+        // Draw orbiting FXC tokens with different orbits
+        tokens.forEach(token => {
+          const x = centerX + Math.cos(token.angle) * token.radius;
+          const y = centerY + Math.sin(token.angle) * token.radius;
+          if (circularFxcLogo) {
+            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
+            ctx.shadowBlur = 15 * dpr;
+            ctx.shadowColor = '#FFD700';
+            ctx.drawImage(circularFxcLogo, (x - token.size / 2) * dpr, (y - token.size / 2) * dpr, token.size * dpr, token.size * dpr);
+            ctx.shadowBlur = 0;
+          }
+          token.angle += token.speed;
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      window.addEventListener('resize', () => {
+        resizeCanvas();
+        baseRadius = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.1;
+        radiusStep = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
+        tokens.forEach((token, i) => {
+          token.radius = baseRadius + i * radiusStep;
+          token.size = Math.min(canvas.offsetWidth, canvas.offsetHeight) * 0.05;
+        });
+      });
+    };
+  </script>
+</body>
+</html>
