@@ -61,6 +61,25 @@
       background-color: #FFD700;
       border-radius: 50%;
     }
+    .neon-button {
+      background: linear-gradient(45deg, #00ffcc, #ff00ff);
+      border: 2px solid #00ffcc;
+      border-radius: 50px;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #000;
+      transition: all 0.3s ease;
+    }
+    .neon-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px #00ffcc, 0 0 30px #ff00ff;
+    }
+    .neon-button:active {
+      transform: translateY(0);
+      box-shadow: 0 0 10px #00ffcc, 0 0 20px #ff00ff;
+    }
   </style>
 </head>
 <body>
@@ -151,6 +170,10 @@
         { title: "Futuristic Design", description: "Immerse yourself in a neon blockchain experience.", icon: "🌌" }
       ];
 
+      const handleBuyNow = () => {
+        window.open('https://app.cauldron.quest/swap/9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501', '_blank');
+      };
+
       return (
         <div className="bg-gray-900 min-h-screen text-white">
           <Header />
@@ -163,10 +186,17 @@
             <div className="mt-8 sm:mt-12 text-center">
               <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash & BitcoinCash</h2>
               <SolarSystem />
+              <button 
+                className="neon-button mt-6 sm:mt-8 glow-effect"
+                onClick={handleBuyNow}
+              >
+                Buy Now
+              </button>
             </div>
           </main>
           <footer className="bg-indigo-950 p-4 sm:p-6 text-center">
-            <p className="text-gray-400 text-sm sm:text-base">© 2025 FluxCash. All rights reserved.</p>
+            <p className="text-gray-400 text-sm sm:text-base">Token ID: 9a1acf0031935da63917fe5fffd306c892b8387ffd3e8d4a35da604526137501</p>
+            <p className="text-gray-400 text-sm sm:text-base mt-2">© 2025 FluxCash. All rights reserved.</p>
           </footer>
         </div>
       );
