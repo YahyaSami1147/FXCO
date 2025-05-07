@@ -22,24 +22,24 @@
       50% { transform: scale(1.05); }
     }
     @keyframes orbit1 {
-      from { transform: rotate(0deg) translateX(max(6vw, 24px)) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(max(6vw, 24px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(max(8vw, 32px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(8vw, 32px)) rotate(-360deg); }
     }
     @keyframes orbit2 {
-      from { transform: rotate(0deg) translateX(max(9vw, 36px)) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(max(9vw, 36px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(max(11vw, 44px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(11vw, 44px)) rotate(-360deg); }
     }
     @keyframes orbit3 {
-      from { transform: rotate(0deg) translateX(max(12vw, 48px)) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(max(12vw, 48px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(max(14vw, 56px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(14vw, 56px)) rotate(-360deg); }
     }
     @keyframes orbit4 {
-      from { transform: rotate(0deg) translateX(max(15vw, 60px)) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(max(15vw, 60px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(max(17vw, 68px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(17vw, 68px)) rotate(-360deg); }
     }
     @keyframes orbit5 {
-      from { transform: rotate(0deg) translateX(max(18vw, 72px)) rotate(0deg); }
-      to { transform: rotate(360deg) translateX(max(18vw, 72px)) rotate(-360deg); }
+      from { transform: rotate(0deg) translateX(max(20vw, 80px)) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(max(20vw, 80px)) rotate(-360deg); }
     }
     .orbit1 { animation: orbit1 7s linear infinite; }
     .orbit2 { animation: orbit2 9s linear infinite; }
@@ -91,13 +91,13 @@
     );
 
     const SolarSystem = () => {
-      const orbits = [
-        { className: 'orbit1', delay: '0s', radius: '12vw', minRadius: '48px' },
-        { className: 'orbit2', delay: '0.8s', radius: '18vw', minRadius: '72px' },
-        { className: 'orbit3', delay: '1.6s', radius: '24vw', minRadius: '96px' },
-        { className: 'orbit4', delay: '2.4s', radius: '30vw', minRadius: '120px' },
-        { className: 'orbit5', delay: '3.2s', radius: '36vw', minRadius: '144px' }
-      ];
+        const orbits = [
+  { className: 'orbit1', delay: '0s', radius: '16vw', minRadius: '64px' },
+  { className: 'orbit2', delay: '0.6s', radius: '22vw', minRadius: '88px' },
+  { className: 'orbit3', delay: '1.4s', radius: '28vw', minRadius: '112px' },
+  { className: 'orbit4', delay: '2.3s', radius: '34vw', minRadius: '136px' },
+  { className: 'orbit5', delay: '3.4s', radius: '40vw', minRadius: '160px' }
+];
 
       return (
         <div className="relative w-full min-w-[200px] h-64 sm:h-80 md:h-96 neon-background rounded-2xl border-4 border-yellow-400 flex items-center justify-center overflow-hidden">
@@ -161,7 +161,7 @@
               ))}
             </div>
             <div className="mt-8 sm:mt-12 text-center">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash Solar System</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 animate-pulse">FluxCash & BitcoinCash</h2>
               <SolarSystem />
             </div>
           </main>
