@@ -8,6 +8,15 @@
   box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
 
+/* Styling for the title above the iframe */
+.iframe-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 1rem 0; /* Space below title */
+  text-align: center; /* Center the title */
+}
+
 /* Ensure iframe is responsive while maintaining aspect ratio */
 .iframe-container iframe {
   width: 100%;
@@ -24,6 +33,9 @@
   .iframe-container iframe {
     height: 200px; /* Reduced height for small screens */
   }
+  .iframe-title {
+    font-size: 1.2rem; /* Smaller font for mobile */
+  }
 }
 
 /* Tablets and medium devices (577px to 768px) */
@@ -34,12 +46,18 @@
   .iframe-container iframe {
     height: 300px; /* Moderate height for tablets */
   }
+  .iframe-title {
+    font-size: 1.3rem; /* Slightly larger for tablets */
+  }
 }
 
 /* Laptops and desktops (769px to 1200px) */
 @media screen and (min-width: 769px) and (max-width: 1200px) {
   .iframe-container iframe {
     height: 350px; /* Slightly smaller than default for mid-range screens */
+  }
+  .iframe-title {
+    font-size: 1.4rem;
   }
 }
 
@@ -48,11 +66,17 @@
   .iframe-container iframe {
     height: 450px; /* Larger height for 4K displays */
   }
+  .iframe-title {
+    font-size: 1.6rem; /* Larger font for 4K */
+  }
 }
 
 /* Ensure iframe scales appropriately on very small screens */
 @media screen and (max-width: 360px) {
   .iframe-container iframe {
     height: 180px; /* Extra small height for tiny mobile devices */
+  }
+  .iframe-title {
+    font-size: 1.1rem; /* Extra small font for tiny screens */
   }
 }
