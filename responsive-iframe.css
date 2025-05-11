@@ -8,13 +8,27 @@
   box-sizing: border-box; /* Ensures padding doesn't affect width */
 }
 
-/* Styling for the title above the iframe */
+/* Styling for the title above the iframe with pulse animation */
 .iframe-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
   margin: 0 0 1rem 0; /* Space below title */
   text-align: center; /* Center the title */
+  animation: pulse 2s ease-in-out infinite; /* Apply pulse animation */
+}
+
+/* Pulse animation keyframes */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Slightly scale up */
+  }
+  100% {
+    transform: scale(1); /* Return to original size */
+  }
 }
 
 /* Ensure iframe is responsive while maintaining aspect ratio */
